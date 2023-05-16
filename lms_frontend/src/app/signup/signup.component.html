@@ -1,0 +1,138 @@
+    <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-lg-12 col-xl-11">
+            <div class="card-body p-md-5">
+              <div class="row justify-content-center">
+                <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+  
+                  <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
+                <form #signUpForm="ngForm" class="mx-1 mx-md-4" (ngSubmit)="formSubmit(selectedCountry.value , selectedState.value , selectedCity.value)" ngNativeValidate>
+  
+                    <div class="d-flex flex-row align-items-center mb-4">
+                      <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                      <div class="form-outline flex-fill mb-0">
+                        <input required type="text" id="form3Example1c" class="form-control"  
+                        placeholder="Your Name"
+                        name="userName"
+                        [(ngModel)]="user.userName"/>
+                      </div>
+                    </div>
+  
+                    <div class="d-flex flex-row align-items-center mb-4" [class.has-error]="email.invalid && email.touched">
+                      <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                      <div class="form-outline flex-fill mb-0">
+                        <input required [email]="user.email!==''" type="text" id="form3Example3c" class="form-control"
+                          placeholder="Your Email" name="email" #email="ngModel" [(ngModel)]="user.email" />
+                        <span class="help-block" *ngIf="email.errors?.['required']  && email.touched">
+                          Email is required
+                        </span>
+                        <span class="help-block" *ngIf=" email.errors?.['email'] && email.touched">
+                          Email is invalid</span>
+                    
+                      </div>
+                    </div>
+
+                    <div class="d-flex flex-row align-items-center mb-4" [class.has-error]="number.invalid && number.touched">
+                      <i class="fas fa-phone fa-lg me-3 fa-fw"></i>
+                      <div class="form-outline flex-fill mb-0">
+                        <input required tel  [valueAsNumber]="number" [pattern]="mobNumberPattern" type="tel" id="form3Example3c"
+                          class="form-control" placeholder="Mobile.No" name="number" #number="ngModel" [(ngModel)]="user.number" />
+                        <span class="help-block" *ngIf="number.errors?.['required']  && number.touched">
+                          Phone Number is required
+                        </span>
+                        <span class="help-block" *ngIf=" number.errors?.['number'] && number.touched">
+                          PhoneNumber is invalid</span>
+                        
+                      </div>
+                    </div>
+              
+                      <div class="d-flex flex-row align-items-center mb-4">
+                        <i class="fas fa-globe fa-lg me-3 fa-fw"></i>
+                        <div class="form-outline flex-fill mb-0">
+                          <select required #selectedCountry class="select form-outline flex-fill mb-0 me-3" (change)="onChangeCountry($any($event.target).value)" >
+                            <option value="1" >Country</option>
+                            <option *ngFor="let country of countries" [value]="country" >{{country}}</option>
+                          </select> 
+                        </div>
+                      </div>
+                      
+                      <div class="d-flex flex-row align-items-center mb-4">
+                        <i class="fas fa-duotone fa-flag fa-lg me-3 fa-fw"></i>
+                        <div class="form-outline flex-fill mb-0">
+                          <select required #selectedState class="select form-outline flex-fill mb-0 me-3" (change)="onChangeState($any($event.target).value)">
+                            <option value="1" >State</option>
+                            <option *ngFor="let state of states" [value]="state">{{state}}</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="d-flex flex-row align-items-center mb-4">
+                        <i class="fas fa-city fa-lg me-3 fa-fw"></i>
+                        <div class="form-outline flex-fill mb-0">
+                          <select required #selectedCity class="select form-outline flex-fill mb-0 me-3">
+                            <option value="1" >City</option>
+                            <option *ngFor="let city of cities" [value]="city">{{city}}</option>
+                          </select> 
+                        </div>
+                      </div>
+                      <div class="d-flex flex-row align-items-center mb-4">
+                        <i class="fas fa-landmark fa-lg me-3 fa-fw"></i>
+                        <div class="form-outline flex-fill mb-0">
+                          <input required type="text" id="form3Example3c" class="form-control" placeholder="Address"
+                          name="userAddress"
+                        [(ngModel)]="user.userAddress.address" />
+                        </div>
+                      </div>
+
+                    <div class="d-flex flex-row align-items-center mb-4" [class.has-error]="password.invalid && password.touched">
+                      <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                      <div class="form-outline flex-fill mb-0">
+                        <input required minlength="6" maxlength="15" type="password" id="form3Example4c" class="form-control"
+                          placeholder="Password" name="Password" #password="ngModel" [(ngModel)]="user.password" />
+                        <span class="help-block" *ngIf="password.touched && password.errors?.['required']">Password is Required</span>
+                        <div class="help-block" *ngIf="password.errors?.['minlength'] || password.errors?.['maxlength']">
+                          Password must be at least 6 characters long and not more than 15 characters long.
+                        </div>
+                      </div>
+                    </div>
+  
+                    <div class="d-flex flex-row align-items-center mb-4" [class.has-error]="confirmpassword.invalid && confirmpassword.touched">
+                      <i class="fas fa-key fa-lg me-3 fa-fw"></i>
+                      <div class="form-outline flex-fill mb-0">
+                        <input required ngValidateEqual="Password" #confirmpassword="ngModel" type="password" name="confirmpassword" id="form3Example4cd" class="form-control" placeholder="Re-enter Password" [(ngModel)]="user.confirmPassword"/>
+                        <div *ngIf="(confirmpassword.dirty || confirmpassword.touched) && confirmpassword.invalid">
+                          <p class="help-block" *ngIf="confirmpassword.hasError('notEqual') && password.valid">
+                            Passwords Don't Match
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+  
+                    <div class="form-check d-flex  mb-1">
+                      <input required class="form-check-input me-2" type="checkbox" value="" id="form2Example3c" />
+                      <label class="form-check-label" for="form2Example3">
+                        I agree all statements in <a href="#!">Terms of service</a>
+                      </label>
+                    </div>
+                    <div class="form-check d-flex  mb-5">
+                      <label class="form-check-label small fw-bold" for="form2Example3">
+                        Already have an account? <a href="#!">Login</a>
+                      </label>
+                    </div>
+                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                      <button type="submit" class="btn btn-primary btn-lg" [disabled]="signUpForm.invalid">Register</button>
+                    </div>
+  
+                  </form>
+  
+                </div>
+                <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
+  
+                  <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
+                    class="img-fluid" alt="Sample image">
+  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>

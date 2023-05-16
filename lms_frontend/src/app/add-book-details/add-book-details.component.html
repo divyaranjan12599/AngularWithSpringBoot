@@ -1,0 +1,116 @@
+<app-header [heading]="'Add Books'"></app-header>
+
+<form [formGroup]="addbookform" (ngSubmit)=" addtobase()" ngNativeValidate>
+    <!-- <div class="form-group">
+        <label for="exampleInputEmail1">Email address</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+            placeholder="Enter email">
+        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+    </div> -->
+    <div>
+        <!-- <p>Book Name</p> -->
+        <mat-form-field class="f1">
+            <mat-label>Book Name</mat-label>
+            <input type="text" matInput formControlName="bookName" placeholder="Enter the book name...">
+            <mat-error *ngIf="addbookform.get('bookName')?.hasError('required')">
+                Please enter book name.
+            </mat-error>
+        </mat-form-field>
+    </div>
+    <br>
+    <div>
+        <!-- <p>book quantity</p> -->
+        <mat-form-field class="f1">
+            <mat-label>Quantity</mat-label>
+            <input type="number" matInput formControlName="quantity" placeholder="Enter the quantity...">
+
+            <mat-error *ngIf="addbookform.get('quantity')?.hasError('min')">
+                Quantity must be greater than <b>0</b>
+            </mat-error>
+
+            <mat-error *ngIf="addbookform.get('quantity')?.hasError('required')">
+                Quantity is mandatory
+            </mat-error>
+
+        </mat-form-field>
+    </div>
+    <br>
+    <div>
+        <h4>Category Details</h4>
+        <!-- <mat-form-field class="f1">
+            <mat-label>Category</mat-label>
+            <input type="text" matInput formControlName="categoryName" placeholder="Enter the category...">
+            <mat-error *ngIf="addbookform.controls['category'].get('categoryName')?.hasError('required')">
+                Category is required
+            </mat-error>
+        </mat-form-field> -->
+
+        <div formArrayName="category">
+
+            <div *ngFor="let category of  categoryArray.controls; let i=index" [formGroupName]="i">
+
+                <mat-form-field class="example-full-width">
+                
+                    <mat-label>category Name</mat-label>
+                     <input type="text" matInput formControlName="categoryName" placeholder="enter the categoryname">
+                    <!-- <div>
+                    <select matNativeControl placeholder="enter the category name">
+                        <option value="1" >category</option>
+                        <option *ngFor="let country of categorynames" formControlName="categoryName"  [value]="country" >{{country}}</option>
+                      </select> 
+                    </div> -->
+                    <mat-error *ngIf="category.get('categoryName')?.hasError('required')">
+                        category name is required
+                    </mat-error>
+
+                    <button mat-icon-button matSuffix *ngIf="i<1" (click)="addcategory()">
+                        <mat-icon>add_circle</mat-icon>
+                    </button>
+
+                    <button mat-icon-button matSuffix *ngIf="i>=1" (click)=" removecategory(i)">
+                        <mat-icon>highlight_off</mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <br>
+    
+    <div>
+        <h4>Author Details</h4>
+
+
+        <div formArrayName="authors">
+
+            <div *ngFor="let author of  authorsArray.controls; let i=index" [formGroupName]="i">
+
+                <mat-form-field class="example-full-width">
+
+                    <mat-label>Author Name</mat-label>
+                    <input type="text" matInput formControlName="authorName" placeholder="enter the authorname">
+
+                    <mat-error *ngIf="author.get('authorName')?.hasError('required')">
+                        Author name is required
+                    </mat-error>
+
+                    <button mat-icon-button matSuffix *ngIf="i<1" (click)="addauthors()">
+                        <mat-icon>add_circle</mat-icon>
+                    </button>
+
+                    <button mat-icon-button matSuffix *ngIf="i>=1" (click)="removeperson(i)">
+                        <mat-icon>highlight_off</mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="text-right">
+        <button class="btn btn-outline-secondary">Add Book</button>
+        <button type="button" class="btn btn-outline-secondary ml-2" (click)="reset()" color="primary">Reset</button>
+    </div>
+</form>
+
+ <p>{{this.addbookform.value|json}}</p>
+ <p>{{this.categorynames}}</p>
+<app-footer-component></app-footer-component>

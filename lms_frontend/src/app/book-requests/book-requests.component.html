@@ -1,0 +1,30 @@
+<app-header [heading]="'Requested Books'"></app-header>
+<div class="text-center">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col" (click)="sort('authorName')">Author Name&nbsp;<i class="fa fa-sort"></i></th>
+          <th scope="col" (click)="sort('bookName')">Book Name&nbsp;<i class="fa fa-sort"></i></th>
+          <th scope="col" (click)="sort('isActive')">Status&nbsp;<i class="fa fa-sort"></i></th>
+          <th scope="col">Operations</th>
+        </tr>
+    </thead>
+    <tbody>
+    <ng-container *ngFor="let requestbook of bookrequests | orderBy:key:reverse;let i = index">
+          <tr *ngIf="check(requestbook.isActive)">            
+            <th scope="row">{{i + 1}}</th>
+            <td>{{requestbook.authorName}}</td>
+            <td>{{requestbook.bookName}}</td>
+            <td>{{requestbook.isActive}}</td>
+            <td>
+                <button class="btn btn-outline-success btn-sm" (click)="acceptRequest(requestbook.requestId,3)">Accept</button>&nbsp;
+                <button class="btn btn-outline-danger btn-sm" (click)="rejectRequest(requestbook.requestId,0)">Reject</button>
+                <button class="btn btn-outline-danger btn-sm" (click)="pendinpurchase(requestbook.requestId,2)">Pending Purchase</button>
+            </td>
+          </tr>
+    </ng-container>
+        </tbody>
+    </table>
+  </div>
+<app-footer-component></app-footer-component>

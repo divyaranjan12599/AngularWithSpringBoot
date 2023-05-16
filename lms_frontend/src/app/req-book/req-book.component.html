@@ -1,0 +1,54 @@
+<app-header [heading]="'Request For Book'"></app-header>
+<div class="text-center" style="margin-top: 20px;">
+
+    <form (ngSubmit)="formSubmit()" ngNativeValidate>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Author Name</mat-label>
+            <input required [(ngModel)]="requestBook.authorName"
+            name="authorName"
+            matInput placeholder="Enter Author Name">
+        </mat-form-field>
+        <br>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Book Name</mat-label>
+            <input required [(ngModel)]="requestBook.bookName"
+            name="bookName"
+            matInput placeholder="Enter Book Name">
+          </mat-form-field>
+        <br>
+
+    <button type="submit" mat-raised-button color="primary">Submit</button>
+
+  </form>
+</div>
+
+<br>
+
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col" (click)="sort('authorName')">Author Name&nbsp;<i class="fa fa-sort"></i></th>
+        <th scope="col" (click)="sort('bookName')">Book Name&nbsp;<i class="fa fa-sort"></i></th>
+        <th scope="col">Status</th>
+      </tr>
+    </thead>
+    <div *ngIf="(this.requestBookdtos$ | async)?.length===0;else elseBlock">
+      <h4>No data to display...</h4>
+    </div>
+    <ng-template #elseBlock>
+      <tbody>
+        <tr *ngFor="let requestbook of requestBookdtos$ | async| orderBy:key:reverse;let i = index">
+          <th scope="row">{{i + 1}}</th>
+          <td>{{requestbook.authorName}}</td>
+          <td>{{requestbook.bookName}}</td>
+          <td>{{requestbook.isActive}}</td>
+        </tr>
+      </tbody>
+    </ng-template>
+  </table>
+</div>
+<app-footer-component></app-footer-component>

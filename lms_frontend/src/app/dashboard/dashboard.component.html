@@ -1,0 +1,156 @@
+<app-header [heading]="'Dashboard'"></app-header>
+<!-- <h1>Dashboard</h1> -->
+<div class="jumbotron">
+    <div class="row w-100">
+        <div class="col-sm-2">
+            <div class="card all-hover border-info mx-sm-6 p-7">
+                <div class="text-info text-center mt-3">
+                    <h4>All</h4>
+                </div>
+                <div class="text-info text-center mt-2">
+                    <h1>{{this.allbookscount$ | async | json}}</h1>
+                </div>
+                <a (click)=all_books() class="stretched-link"></a>
+            </div>
+        </div>
+
+        <div class="col-sm-2">
+            <div class="card i-hover border-warning mx-sm-6 p-7">
+                <div class="text-warning text-center mt-3">
+                    <h4>Issued</h4>
+                </div>
+                <div class="text-warning text-center mt-2">
+                    <h1>{{this.issuedbookcount$ | async | json}}</h1>
+                </div>
+                <a (click)=issued_books() class="stretched-link"></a>
+            </div>
+        </div>
+
+        <div class="col-sm-2">
+            <div class="card r-hover border-success mx-sm-6 p-7">
+                <div class="text-success text-center mt-3">
+                    <h4>Returned</h4>
+                </div>
+                <div class="text-success text-center mt-2">
+                    <h1>{{this.returnedbookcount$ | async | json}}</h1>
+                </div>
+                <a (click)=returned_books() class="stretched-link"></a>
+            </div>
+        </div>
+
+        <div class="col-sm-2">
+            <div class="card p-hover border-danger mx-sm-6 p-7">
+                <div class="text-danger text-center mt-3">
+                    <h4>Delayed</h4>
+                </div>
+                <div class="text-danger text-center mt-2">
+                    <h1>{{this.pendingsbookcount$! | async| json}}</h1>
+                </div>
+                <a (click)=pending_books() class="stretched-link"></a>
+            </div>
+        </div>
+
+        <div class="col-sm-2">
+            <div class="card b-hover border-dark mx-sm-6 p-7">
+                <div class="text-center mt-3">
+                    <h4>Requested Books</h4>
+                </div>
+                <div class="text-center mt-2">
+
+                    <h1>{{this.requestbookcount$ | async|json}}</h1>
+                </div>
+                <a (click)=requested_books() class="stretched-link"></a>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
+<h2>{{title}} Books</h2>
+<!-- <h1>{{requestbook}}</h1> -->
+<div *ngIf="(this.issuebookdetails$ | async).length===0;else elseBlock">
+    <h4>No data to display...</h4>
+</div>
+<ng-template #elseBlock>
+    <table class="datatable" *ngIf="!requestbook;else requestbookelse">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Book Name</th>
+                <th scope="col">Authors</th>
+                <th scope="col">Issued Date</th>
+                <th scope="col">Issued End Date</th>
+                <th scope="col">Returned Date</th>
+                <th *ngIf="show==1" scope="col">Operations</th>
+            </tr>
+        </thead>
+        <!-- {{issuebookdetails$}} -->
+
+        <tbody>
+            <!-- <tr *ngFor="let issuebook of issuebookdetails$ | async;let i = index"> -->
+            <tr *ngFor="let issuebook of issuebookdetails$  | async;let i = index">
+                <td>{{i+1}}</td>
+                <td>{{issuebook.bookTitle}}</td>
+                <td>{{issuebook.authors}}</td>
+                <td>{{issuebook.issueDate}}</td>
+                <td>{{issuebook.issueEndDate}}</td>
+                <td *ngIf="issuebook.returnDate;else elseBlock">{{issuebook.returnDate}}</td>
+                <ng-template #elseBlock>
+                    <td>Book not returned</td>
+                </ng-template>
+                <td *ngIf="show===1">
+                    <div *ngIf="issuebook.returnDate===null;else elseBlock1">
+                        <!-- {{!issuebook.isExtendable}} && {{!issuebook.isWithDraw}} -- {{!issuebook.isExtendable&&issuebook.isWithDraw}} -->
+                        <button class="btn  r-hover border-success btn-sm"
+                            (click)="returnbook(issuebook)">Return</button>&nbsp;
+                        <button class="btn  i-hover border-warning btn-sm" (click)="extenddatebook(issuebook.issue_id) "
+                            [hidden]="!issuebook.isExtendable">Extend</button>
+                        <button class="btn p-hover border-danger btn-sm" (click)="withdrawbook(issuebook.issue_id) "
+                            [hidden]="!issuebook.isWithDraw">Withdraw Ext.</button>
+                    </div>
+                    <ng-template #elseBlock1>
+                        <button class="btn text-success border-success btn-sm" style="background-color: #e8feda;" disabled>Returned</button>
+                    </ng-template>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <ng-template #requestbookelse>
+        <table class="datatable">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Book Name</th>
+                    <th scope="col">Authors</th>
+                    <th scope="col">status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- <tr *ngFor="let issuebook of issuebookdetails$ | async;let i = index"> -->
+                <tr *ngFor="let issuebook of issuebookdetails$  | async;let i = index">
+                    <td>{{i+1}}</td>
+                    <td>{{issuebook.bookName}}</td>
+                    <td>{{issuebook.authorName}}</td>
+                    <td>{{issuebook.isActive}}</td>
+                    <!-- <td>{{issuebook.issueEndDate}}</td>
+                    <td *ngIf="issuebook.returnDate;else elseBlock">{{issuebook.returnDate}}</td>
+                    <ng-template #elseBlock>
+                        <td>Book not returned</td>
+                    </ng-template>
+                    <td *ngIf="show===1">
+                        <div *ngIf="issuebook.returnDate===null;else elseBlock1">
+                            <button class="btn btn-light btn-sm"
+                                (click)="returnbook(issuebook.issue_id)">Return</button>&nbsp;
+                            <button class="btn btn-light btn-sm" (click)="extenddatebook(issuebook.issue_id) "
+                                [disabled]=!issuebook.isExtendable>Extend</button>
+                        </div>
+                        <ng-template #elseBlock1>
+                            Returned
+                        </ng-template>
+                    </td> -->
+                </tr>
+            </tbody>
+        </table>
+    </ng-template>
+</ng-template>
+<app-footer-component></app-footer-component>

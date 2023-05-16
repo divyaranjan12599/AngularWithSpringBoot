@@ -1,0 +1,13 @@
+@media (min-width: 1025px) {
+    .h-custom {
+    height: 150vh !important;
+    }
+    }
+    .select{
+        border: 1px solid #ced4da;
+        padding: 0.375rem 0.75rem;
+        border-radius: 0.375rem;
+    }
+  .help-block {
+      color: red;
+  }

@@ -1,0 +1,28 @@
+<app-header [heading]="'Issued Books'"></app-header>
+<table class="datatable">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col"(click)="sort('user_name')">User Name&nbsp;<i class="fa fa-sort"></i></th>
+            <th scope="col"(click)="sort('book_title')">Book Title&nbsp;<i class="fa fa-sort"></i></th>
+            <th scope="col"(click)="sort('issue_date')">Issued Date&nbsp;<i class="fa fa-sort"></i></th>
+            <th scope="col"(click)="sort('issue_end_date')">Issued End Date&nbsp;<i class="fa fa-sort"></i></th>
+            <th scope="col"(click)="sort('returned_date')">Returned Date&nbsp;<i class="fa fa-sort"></i></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let book of bookissuedetails$ | async| orderBy:key:reverse;let i = index">
+            <td>{{i+1}}</td>
+            <td>{{book.userName}}</td>
+            <td>{{book.bookTitle}}</td>
+            <td>{{book.issueDate}}</td>
+            <td>{{book.issueEndDate}}</td>
+            <td *ngIf="book.returnDate;else elseBlock">{{book.returnDate}}</td>
+
+            <ng-template #elseBlock>
+                <td>Book not returned.</td>
+            </ng-template>
+        </tr>
+    </tbody>
+</table>
+<app-footer-component></app-footer-component>

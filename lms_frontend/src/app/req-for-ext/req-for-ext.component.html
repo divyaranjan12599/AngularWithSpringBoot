@@ -1,0 +1,37 @@
+<app-header [heading]="'Extention Requests'"></app-header>
+<div>
+    <h1>Book Requests extension</h1>
+    <div *ngIf="(this.requestextension$ | async)?.length===0;else elseBlock">
+        No data to display...
+    </div>
+    <ng-template #elseBlock>
+        <table class="datatable">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">username</th>
+                    <th scope="col">booktitle</th>
+                    <th scope="col">requestExtension</th>
+                    <th scope="col">issueReturnDate</th>
+                    <th scope="col">Operations</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let extend of requestextension$ | async;let i = index">
+                    <td>{{i + 1}}</td>
+                    <td>{{extend.username}}</td>
+                    <td>{{extend.booktitle}}</td>
+                    <td>{{extend.requestExtension}}</td>
+                    <td>{{extend.issueReturnDate}}</td>
+                    <td>
+                        <button class="btn btn-outline-success btn-sm"
+                            (click)="extensionrequest(1,extend.issueId)">Accept</button>&nbsp;
+                        <button class="btn btn-outline-danger btn-sm"
+                            (click)="extensionrequest(0,extend.issueId)">Reject</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </ng-template>
+</div>
+<app-footer-component></app-footer-component>

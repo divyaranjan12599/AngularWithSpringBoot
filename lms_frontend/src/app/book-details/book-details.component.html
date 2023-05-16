@@ -1,0 +1,120 @@
+<app-header [heading]="'Book Detail'"></app-header>
+<div class="card mb-3">
+    <div class="row g-0">
+        <div class="col-md-4">
+            <img class="img-fluid rounded-start"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0YpqlGflv5QMxB0vQKiiP725VXsYoqzaWoKr9nUkB0fdfqj-175PXC_ASgNrt2FE19oY&usqp=CAU"
+                alt="" style="height: 100%;width: 100%;">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h1 class="card-title">{{bookdetails.book_title}}</h1>
+                <span *ngFor="let item of [].constructor(dec_to_int(bookdetails.avg_rating))" class="fa fa-star checked"
+                    style="font-size: larger;"></span>
+                <span *ngFor="let item of [].constructor(dec_part(bookdetails.avg_rating))"
+                    class="fa fa-star-half-o checked" style="font-size: larger;"></span>
+                <span
+                    *ngFor="let item of [].constructor(5-(dec_to_int(bookdetails.avg_rating)+dec_part(bookdetails.avg_rating)))"
+                    class="fa fa-star-o unchecked" style="font-size: larger;"></span>
+                <span class="fa fa-user review_count">{{bookdetails.rating_count}}</span>
+                <h4 style="color: #808080" class="mt-3">Category: <b>{{bookdetails.category}}</b></h4>
+                <h4 style="color: #808080">Authors:</h4>
+                <span *ngFor="let author of bookdetails.authors" class="fa fa-user-o review_count"
+                    style="font-size:medium;">{{author}}</span>
+                <h4 class="mt-3" style="color: #808080">Description:</h4>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis cumque id optio distinctio
+                    molestiae harum cum est modi iure porro, recusandae alias quia odit eos nam ab nemo amet odio.</p>
+
+                <div class="text-right">
+                    <button class="btn btn-secondary" (click)="lendbook(bookdetails.book_id)">Lend</button>
+                </div>
+            </div>
+            <!-- <h1>{{bookdetails.book_title}}</h1>
+            <h4 style="color: #808080">Category: <b>{{bookdetails.category}}</b></h4>
+            <h4 style="color: #808080">Authors:</h4>
+            <span *ngFor="let author of bookdetails.authors" class="fa fa-user-o review_count">{{author}}</span> -->
+        </div>
+    </div>
+</div>
+
+<div class="mb-3">
+    <div class="row">
+        <div class="col-md-4 p-4">
+            <h1>Review</h1>
+            <span *ngFor="let item of [].constructor(dec_to_int(bookdetails.avg_rating))"
+                class="fa fa-star checked avg"></span>
+            <span *ngFor="let item of [].constructor(dec_part(bookdetails.avg_rating))"
+                class="fa fa-star-half-o checked avg"></span>
+            <span
+                *ngFor="let item of [].constructor(5-(dec_to_int(bookdetails.avg_rating)+dec_part(bookdetails.avg_rating)))"
+                class="fa fa-star-o unchecked avg"></span>
+            <span class="fa fa-user-o review_count">{{bookdetails.rating_count}}</span>
+            <div class="mt-4" style="width: 100%;" [hidden]="!islended">
+                <button class="btn btn-secondary" (click)="openDialog()"><i class="fa fa-plus"></i> Add Review</button>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card-body p-4">
+                <div *ngFor="let review of bookreview$ | async;let i = index">
+                    <p class="p-2"><span class="fa fa-user-circle-o user-icon mt-3">{{review.username}}</span>
+                        <br>
+                        <span *ngFor="let item of [].constructor(review.starRating)"
+                            class="fa fa-star checked user-rating"></span>
+                        <span *ngFor="let item of [].constructor(5-(review.starRating))"
+                            class="fa fa-star-o unchecked user-rating"></span>
+                        <br>
+                        <span style="color: #808080;" *ngIf="review.comments==='';else commentelse">
+                            <p class="mt-1">No Comments...</p> 
+                            <!-- <button mat-icon-button matSuffix (click)="edit_mode_on()" [hidden]="edit_mode"><mat-icon>create</mat-icon></button>
+                            <button mat-icon-button matSuffix (click)="edit_mode_off()" [hidden]="!edit_mode"><mat-icon>add</mat-icon></button> -->
+                        </span>
+                        <ng-template #commentelse>
+                            <p class="mt-1">{{review.comments}}</p>
+                        </ng-template>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="review">
+    <mat-card class="example-card">
+        <mat-card-header>
+            <mat-card-title>Review</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <span *ngFor="let item of [].constructor(dec_to_int(bookdetails.avg_rating))"
+                class="fa fa-star checked avg"></span>
+            <span *ngFor="let item of [].constructor(dec_part(bookdetails.avg_rating))"
+                class="fa fa-star-half-o checked avg"></span>
+            <span
+                *ngFor="let item of [].constructor(5-(dec_to_int(bookdetails.avg_rating)+dec_part(bookdetails.avg_rating)))"
+                class="fa fa-star-o unchecked avg"></span>
+            <span class="fa fa-user-o review_count">{{bookdetails.rating_count}}</span>
+
+            <div *ngFor="let review of bookreview$ | async;let i = index">
+                <p class="p-2"><span class="fa fa-user-circle-o user-icon mt-3">{{review.username}}</span>
+                    <br>
+                    <span *ngFor="let item of [].constructor(review.starRating)"
+                        class="fa fa-star checked user-rating"></span>
+                    <span *ngFor="let item of [].constructor(5-(review.starRating))"
+                        class="fa fa-star-o unchecked user-rating"></span>
+                    <br>
+                    <span class="m-2" *ngIf="review.comments==='';else commentelse">
+                        <textarea rows="" cols="" placeholder="No Comments..." disabled></textarea>
+                    </span>
+                    <ng-template #commentelse>
+                        <textarea rows="" cols="" disabled>{{review.comments}}</textarea>
+                    </ng-template>
+                </p>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <div class="text-right" style="width: 100%;">
+                <button mat-icon-button matSuffix (click)="openDialog()"><mat-icon>add_circle</mat-icon></button>
+            </div>
+        </mat-card-actions>
+    </mat-card>
+</div> -->
+<app-footer-component></app-footer-component>

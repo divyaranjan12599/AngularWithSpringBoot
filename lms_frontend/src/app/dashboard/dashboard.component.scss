@@ -1,0 +1,106 @@
+.my-card
+{
+    position:absolute;
+    left:40%;
+    top:-20px;
+    border-radius:50%;
+}
+
+.stretched-link::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    pointer-events: auto;
+    content: "";
+    background-color: rgba(0,0,0,0);
+}
+
+.returned{
+    color: green;
+    background-color: lightgreen;
+}
+
+.returned:hover{
+    background: #e8feda;
+}
+
+.pending{
+    color: #dc3545;
+    background-color: #FF8A8A;
+}
+
+.pending:hover{
+    background: #fededb;
+}
+
+.all-hover:hover{
+    background-color: #dae8fe;
+}
+
+.b-hover:hover{
+    background-color: #D0D2D7;
+}
+
+.i-hover:hover{
+    background-color: antiquewhite;
+}
+
+.r-hover:hover{
+    background-color: #e8feda;
+}
+
+.p-hover:hover{
+    background-color: #fededb;
+}
+
+::ng-deep .body {
+    margin-left: 5rem;
+}
+
+
+.datatable {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+
+.datatable td {
+    // border: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 8px;
+}
+
+.datatable th {
+    border-top: 1px solid grey;
+    border-bottom: 3px solid grey;
+    padding: 8px;
+}
+
+.datatable tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+.datatable tr:hover{
+    background-color: #ddd;
+}
+
+.datatable th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: white;
+    color: black;
+}
+.col-sm-2 {
+    flex:auto;
+    // flex-grow: 0;
+    // flex-shrink: 0;
+    flex-basis: auto;
+    width: 16.66666667%;
+}
+
+// .checked {
+//     color: orange;
+// }

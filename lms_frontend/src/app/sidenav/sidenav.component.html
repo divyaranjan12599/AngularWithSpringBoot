@@ -1,0 +1,85 @@
+<div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed': ''" *ngIf="sidenav.visible">
+    <div class="logo-container">
+        <button class="logo" (click)="toggleCollapse()">
+            <!-- <i class="fas fa-user-o fa-lg me-3 fa-fw"></i> -->
+            <!-- <i class="fa fa-user-o" aria-hidden="true"></i> -->
+            <img src="assets\innova-logo.png" alt="">
+        </button>
+        <div class="logo-text" @fadeInOut *ngIf="collapsed">LMS</div>
+        <button class="btn-close" @rotate *ngIf="collapsed" (click)="closeSidenav()">
+            <i class="fal fa-times close-icon"></i>
+        </button>
+    </div>
+    <div *ngIf="userRole==='ADMIN';else elseBlock">
+        <ul class="sidenav-nav">
+            <li class="sidenav-nav-item" *ngFor="let data of navData">
+                <a *ngIf="data.label!=='Add Books';else addBooks" class="sidenav-nav-link" routerLinkActive="active"
+                    [routerLinkActiveOptions]="{exact: true}" [routerLink]="[data.routeLink]">
+                    <i class="sidenav-link-icon" [class]="data.icon"></i>
+                    <span class="sidenav-link-text" @fadeInOut *ngIf="collapsed">
+                        {{data.label}}
+                    </span>
+                </a>
+                <ng-template #addBooks>
+                    <a class="sidenav-nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+                        [routerLink]="[data.routeLink]">
+                        <span class="sidenav-link-icon fal  fa-2x">
+                            <i class="fal fa-solid fa-book"></i>
+                            <i class="fal fa-solid fa-plus text-right" style="font-size: 0.5em;"></i>
+                        </span>
+                        <!-- <i class="sidenav-link-icon" class="fa fa-home"></i> -->
+                        <span class="sidenav-link-text" @fadeInOut *ngIf="collapsed">
+                            {{data.label}}
+                        </span>
+                    </a>
+                </ng-template>
+            </li>
+
+            <li class="sidenav-nav-item" style="margin-top: 25px;">
+
+                <a *ngIf="loggedIn" (click)="logoutUser()" class="sidenav-nav-link">
+                    <i class="sidenav-link-icon" class="fal fa-sign-out-alt" style="font-size: 22px;
+                width: 2rem;
+                min-width: 2rem;
+                margin: 0 0.5rem;
+                text-align: center;
+                justify-content: center;"></i>
+                    <span class="sidenav-link-text" @fadeInOut *ngIf="collapsed">
+                        Log Out
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <ng-template #elseBlock>
+        <ul class="sidenav-nav">
+            <li class="sidenav-nav-item" *ngFor="let data of navData">
+                <a class="sidenav-nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+                    [routerLink]="[data.routeLink]">
+                    <i class="sidenav-link-icon" [class]="data.icon"></i>
+                    <span class="sidenav-link-text" @fadeInOut *ngIf="collapsed">
+                        {{data.label}}
+                    </span>
+                </a>
+            </li>
+
+            <li class="sidenav-nav-item" style="margin-top: 300px;">
+                <a *ngIf="loggedIn" (click)="logoutUser()" class="sidenav-nav-link">
+                    <i class="sidenav-link-icon" class="fal fa-sign-out-alt" style="font-size: 22px;
+                width: 2rem;
+                min-width: 2rem;
+                margin: 0 0.5rem;
+                text-align: center;
+                justify-content: center;"></i>
+                    <span class="sidenav-link-text" @fadeInOut *ngIf="collapsed">
+                        Log Out
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </ng-template>
+
+    <router-outlet>
+    </router-outlet>
+
+</div>

@@ -1,0 +1,152 @@
+.search-textfield {
+    border: none;
+    width: 90%;
+    background: transparent;
+    margin: 0;
+    padding: 7px 8px;
+    font-size: 14px;
+    color: inherit;
+    border-radius: inherit;
+}
+
+.search-textfield:focus {
+    outline: none;
+}
+
+.search-textfield::placeholder {
+    color: #bbb;
+}
+
+.search-btn {
+    overflow: hidden;
+    width: 10%;
+    // margin-left: 30%;
+    // float: right;
+    border: none;
+    border-radius: inherit;
+    cursor: pointer;
+    opacity: 0.6;
+    background: transparent;
+}
+
+.search-btn:hover {
+    opacity: 1;
+}
+
+.search-bar {
+    width: 35%;
+    color: #555;
+    display: flex;
+    padding: 2px;
+    border: 1px solid currentColor;
+    border-radius: 7px;
+    float: right;
+}
+
+.datatable {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+
+.datatable td {
+    // border: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 8px;
+}
+
+.datatable th {
+    border-top: 1px solid grey;
+    border-bottom: 3px solid grey;
+    padding: 8px;
+}
+
+.datatable tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.datatable tr:hover {
+    background-color: #ddd;
+}
+
+//  {
+//     background-color: #ddd;
+// }
+
+// .btn-hov {
+//     background-color: pink;
+// }
+
+.datatable th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: white;
+    color: black;
+}
+
+.checked {
+    color: orange;
+    font-size: larger;
+}
+
+.head:hover{
+    cursor: pointer;
+}
+
+.unchecked {
+    color: orange;
+    font-size: larger;
+}
+
+.review_count {
+    color: #555;
+    margin-left: 9px;
+    font-size: larger;
+}
+
+.review_count::before {
+    margin-right: 3px;
+}
+
+.lend-btn {
+    height: 2rem;
+    width: 100%;
+    border-radius: 5px;
+    border: none;
+    background-color: #555;
+    color: #ffffff;
+    font-weight: 520;
+
+}
+
+.lend-btn:hover {
+    background-color: #bbb;
+    color: #555;
+}
+
+.comic {
+    padding: 2px 4px;
+    border: 1px solid rgb(214, 214, 0);
+    border-radius: 5px;
+    color: rgb(214, 214, 0);
+}
+
+.author_icon {
+    font-size: larger;
+}
+
+.author_icon::before {
+    margin-right: 3px;
+}
+
+
+.card:hover {
+    box-shadow: 10px 10px 30px 15px grey;
+    transform: scale(1.06);
+}
+
+.book-card{
+    margin: 2px;
+    border-radius: 5px;
+}

@@ -1,0 +1,110 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-between mb-2">
+    <a class="navbar-brand ml-2">Search Books</a>
+    <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav mr-auto">
+
+        </ul>
+        <span class="mr-2">
+            <div ngbDropdown class="dropdown">
+                <button ngbDropdownToggle class="btn btn-light" type="button" id="dropdownMenuButton1"
+                    aria-expanded="false">
+                    <i class="fal fa-solid fa-user"></i>
+                </button>
+                <!-- <button type="button" ngbDropdownToggle mat-icon-button matSuffix aria-expanded="false">
+                    <mat-icon>add_circle</mat-icon>
+                </button> -->
+
+                <ul ngbDropdownMenu aria-labelledby="dropdownMenuButton1" class="dropdown-menu dropdown-menu-end">
+                    <li><a ngbDropdownItem href="#">{{loggedUser.userName}}</a></li>
+                    <div class="dropdown-divider"></div>
+                    <li><a ngbDropdownItem href="#" style="color: red;" (click)="logoutUser()">Logout <i
+                                class="fal fa-sign-out-alt"></i></a></li>
+                </ul>
+            </div>
+        </span>
+
+        <div class="search-bar">
+            <input class="search-textfield" type="search" ng-enter="getdetails()" placeholder="Title or Category or Author Name"
+                aria-label="Search" [(ngModel)]="accordingto">
+            <button class="search-btn" (click)="getdetails()"><i class="fa fa-search"></i></button>
+        </div>
+    </div>
+</nav>
+<!-- <div style="display: inline; width: 100%; padding:4px; margin-bottom: 2px;">
+    <div class="search-bar">
+        <input class="search-textfield" type="search" placeholder="Title or Category or Author Name" aria-label="Search"
+            [(ngModel)]="accordingto">
+        <button class="search-btn" (click)="getdetails()"><i class="fa fa-search"></i></button>
+    </div>
+</div> -->
+
+
+<table class="datatable">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th class="head" scope="col" (click)="sort('book_title')">Book Title&nbsp;<i class="fa fa-sort"></i></th>
+            <th class="head" scope="col" (click)="sort('category')">Category&nbsp;<i class="fa fa-sort"></i></th>
+            <th class="head" scope="col" (click)="sort('quantity')">Quantity&nbsp;<i class="fa fa-sort"></i></th>
+            <th class="head" scope="col" (click)="sort('authors')">Authors&nbsp;<i class="fa fa-sort"></i></th>
+            <th class="head" scope="col" (click)="sort('avg_rating')">Rating&nbsp;<i class="fa fa-sort"></i></th>
+            <th scope="col">Operations</th>
+        </tr>
+    </thead>
+
+    <div *ngIf="(this.bookdetails$ | async)?.length===0;else elseBlock">
+        <h4>No data to display...</h4>
+    </div>
+    <ng-template #elseBlock>
+        <tbody>
+            <!-- *ngFor="let item of [].constructor(3);let i = index" -->
+            <tr *ngFor="let book of bookdetails$ | async| orderBy:key:reverse;let i = index">
+                <td>{{i + 1}}</td>
+                <td [routerLink]="['/book-details', book.book_id]">{{book.book_title}}</td>
+                <td [routerLink]="['/book-details', book.book_id]">{{book.category}}</td>
+                <td [routerLink]="['/book-details', book.book_id]">{{book.quantity}}</td>
+                <td [routerLink]="['/book-details', book.book_id]">{{book.authors}}</td>
+                <td [routerLink]="['/book-details', book.book_id]">
+                    <span *ngFor="let item of [].constructor(dec_to_int(book.avg_rating))"
+                        class="fa fa-star checked"></span>
+                    <span *ngFor="let item of [].constructor(dec_part(book.avg_rating))"
+                        class="fa fa-star-half-o checked"></span>
+                    <span *ngFor="let item of [].constructor(5-(dec_to_int(book.avg_rating)+dec_part(book.avg_rating)))"
+                        class="fa fa-star-o unchecked"></span>
+                    <span class="fa fa-user review_count">{{book.rating_count}}</span>
+
+                </td>
+                <td>
+                    <button class="lend-btn" (click)="lendbook(book.book_id)">Lend</button>
+                    <ng-http-loader>
+                    </ng-http-loader>
+                </td>
+
+            </tr>
+        </tbody>
+    </ng-template>
+</table>
+
+<!-- <div class="card-columns">
+    <div class="card" *ngFor="let book of bookdetails$ | async;let i = index">
+        <div class="card-body">
+            <div>{{book.book_title}}</div>
+            <div>
+                <span class="comic">{{book.category}}</span>
+                <div *ngFor="let author of book.authors"><span
+                        class="fa fa-address-book-o author_icon">{{author}}</span></div>
+                <span *ngFor="let item of [].constructor(dec_to_int(book.avg_rating))"
+                    class="fa fa-star checked"></span>
+                <span *ngFor="let item of [].constructor(dec_part(book.avg_rating))"
+                    class="fa fa-star-half-o checked"></span>
+                <span *ngFor="let item of [].constructor(5-(dec_to_int(book.avg_rating)+dec_part(book.avg_rating)))"
+                    class="fa fa-star-o unchecked"></span>
+                <span class="fa fa-user review_count">{{book.rating_count}}</span>
+            </div>
+            <div hidden> 
+                <button class="lend-btn" (click)="lendbook(book.book_id)">Lend</button>
+            </div>
+        </div>
+    </div>
+</div> -->
+<app-footer-component></app-footer-component>
